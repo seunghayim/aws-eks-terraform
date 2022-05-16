@@ -1,0 +1,5 @@
+resources:
+- storageclass.yaml
+- pod.yaml
+patchesStrategicMerge:
+- edit-storageclass.yaml

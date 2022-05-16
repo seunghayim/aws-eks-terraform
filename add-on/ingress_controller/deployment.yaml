@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: controller
+        args:
+        - --cluster-name=cloud5-eks-cluster-terraform
