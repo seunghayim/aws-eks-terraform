@@ -1,0 +1,5 @@
+resources:
+- https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.0/v2_4_0_full.yaml
+patchesStrategicMerge:
+- deployment.yaml
+- serviceaccount.yaml

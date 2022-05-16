@@ -1,0 +1,7 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-sc
+parameters:
+  fileSystemId: fs-05c58e63f99697653
+  basePath: "/log" # optional
