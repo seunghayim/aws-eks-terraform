@@ -1,4 +1,0 @@
-resources:
-- public-ecr-driver.yaml
-patchesStrategicMerge:
-- serviceaccount.yaml
