@@ -33,9 +33,9 @@ terraform {
 ################################################################################
 
 provider "aws" {
-  region = "${AWS_REGION}"
-  access_key = "${AWS_SECRET_ACCESS_KEY}"
-  secret_key = "${AWS_ACCESS_KEY_ID}"
+  region = "AWS_REGION"
+  access_key = "AWS_ACCESS_KEY_ID"
+  secret_key = "AWS_SECRET_ACCESS_KEY"
 }
 # provider "aws" {
 #     region = local.aws_accounts.cloud5.region
