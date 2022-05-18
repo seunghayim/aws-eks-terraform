@@ -1,5 +1,5 @@
 locals {
-  name            = "cloud5-eks-cluster-terraform"
+  name            = "multi05-eks-cluster-terraform"
   cluster_version = "1.22"
   region          = "ap-southeast-2"
 
@@ -38,8 +38,8 @@ resource "aws_eks_cluster" "this" {
   # }
 
   depends_on = [
-    aws_iam_role_policy_attachment.cloud5-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.cloud5-AmazonEKSVPCResourceController,
+    aws_iam_role_policy_attachment.eks_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.eks_AmazonEKSVPCResourceController,
   ]
 }
 

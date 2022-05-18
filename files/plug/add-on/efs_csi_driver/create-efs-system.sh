@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 vpc_id=$(aws eks describe-cluster \
-    --name cloud5-eks-cluster-terraform \
+    --name multi05-eks-cluster-terraform \
     --query "cluster.resourcesVpcConfig.vpcId" \
     --output text)
 
@@ -35,10 +35,10 @@ aws ec2 describe-subnets \
     --query 'Subnets[*].{SubnetId: SubnetId,AvailabilityZone: AvailabilityZone,CidrBlock: CidrBlock}' \
     --output table
 
-# 노드가 위치한 서브넷 추가
-# aws efs create-mount-target \
-#     --file-system-id $file_system_id \
-#     --subnet-id subnet-0582b1371228b58a2 \
-#     --security-groups $security_group_id
+# 노드가 위치한 서브넷 추가 output 참조하여 변경
+aws efs create-mount-target \
+    --file-system-id $file_system_id \
+    --subnet-id subnet-0582b1371228b58a2 \
+    --security-groups $security_group_id
 
 aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text

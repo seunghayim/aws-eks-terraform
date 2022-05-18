@@ -36,6 +36,10 @@ output "provisioner_instance" {
   }
 }
 
+output "aws_ami_version" {
+  value = data.aws_ami.eks_default
+}
+
 output "aws_ingress_controller_iam_role" {
   value = aws_iam_role.ingress_controller
 }

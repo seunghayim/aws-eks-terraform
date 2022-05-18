@@ -32,7 +32,7 @@ resource "null_resource" "provisioner" {
   # Changes to any instance of the cluster requires re-provisioning
   triggers = {
     instance_id = aws_instance.provisioner.id
-    script1     = filemd5("${path.module}/files/install-kubectl.sh")
+    script      = filemd5("${path.module}/files/install-kubectl-null.sh")
   }
 
   # Bootstrap script can run on any instance of the cluster
@@ -48,9 +48,21 @@ resource "null_resource" "provisioner" {
     }
   }
 
+  provisioner "file" {
+    source      = "${path.module}/files/plug"
+    destination = "/tmp/plug"
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      host = aws_instance.provisioner.public_ip
+    }
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "sudo mv /tmp/.aws ~/"
+      "sudo mv /tmp/.aws ~/",
+      "sudo chmod +x /tmp/plug/sh/*.sh"
     ]
 
     connection {
@@ -61,7 +73,7 @@ resource "null_resource" "provisioner" {
   }
 
   provisioner "remote-exec" {
-    script = "${path.module}/files/install-kubectl.sh"
+    script = "${path.module}/files/install-kubectl-null.sh"
 
     connection {
       type = "ssh"

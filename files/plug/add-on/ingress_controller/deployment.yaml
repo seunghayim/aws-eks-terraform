@@ -9,4 +9,4 @@ spec:
       containers:
       - name: controller
         args:
-        - --cluster-name=cloud5-eks-cluster-terraform
+        - --cluster-name=multi05-eks-cluster-terraform

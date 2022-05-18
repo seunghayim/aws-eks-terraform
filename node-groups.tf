@@ -1,12 +1,13 @@
 resource "aws_eks_node_group" "node" {
   cluster_name    = local.name
-  node_group_name = "node"
+  node_group_name = "${local.name}-nodes"
   node_role_arn   = aws_iam_role.node.arn
   subnet_ids      = module.vpc.private_subnets
 
-  disk_size      = "20"
-  instance_types = ["t3.medium"]
-  capacity_type  = "SPOT"
+  disk_size            = "25"
+  instance_types       = ["t3.medium"]
+  capacity_type        = "SPOT"
+  force_update_version = "true"
 
   scaling_config {
     desired_size = 1
@@ -23,17 +24,12 @@ resource "aws_eks_node_group" "node" {
     ec2_ssh_key               = "langhae"
   }
 
-  launch_template {
-    name    = "eks-node"
-    version = "latest_version"
-  }
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
-    aws_iam_role_policy_attachment.node-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.node-AmazonSSMManagedInstanceCore,
-    aws_iam_role_policy_attachment.node-AmazonEC2ContainerRegistryReadOnly,
-    aws_iam_role_policy_attachment.node-CloudWatchAgentServerPolicy,
+    aws_iam_role_policy_attachment.node_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_AmazonSSMManagedInstanceCore,
+    aws_iam_role_policy_attachment.node_AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.this
   ]
 
@@ -43,6 +39,17 @@ resource "aws_eks_node_group" "node" {
   # }
 
 }
+
+data "aws_ami" "eks_default" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amazon-eks-node-${local.cluster_version}-v*"]
+  }
+}
+
 
 # resource "tls_private_key" "this" {
 #   algorithm = "RSA"
