@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 
 eksctl create iamserviceaccount \
- --name cwagent-prometheus \
---namespace amazon-cloudwatch \
- --cluster multi05-eks-cluster-terraform \
---attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
---approve \
---override-existing-serviceaccounts
+  --cluster multi05-eks-cluster-terraform \
+  --namespace amazon-cloudwatch \
+  --name cwagent-prometheus \
+  --attach-policy-arn  arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+  --override-existing-serviceaccounts \
+  --approve
 
 # amazon-cloudwatch 생성 여부 확인
 kubectl get namespace

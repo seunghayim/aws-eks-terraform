@@ -21,7 +21,7 @@ resource "aws_eks_cluster" "this" {
   vpc_config {
     subnet_ids              = concat(module.vpc.private_subnets, module.vpc.public_subnets)
     endpoint_private_access = true
-    endpoint_public_access  = true
+    endpoint_public_access  = false
     security_group_ids      = [aws_security_group.eks-cotrol-plane.id]
     # public_access_cidrs     = [cidrsubnet(aws_instance.provisioner.public_ip, 16)]
   }

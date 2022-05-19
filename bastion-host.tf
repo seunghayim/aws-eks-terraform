@@ -46,7 +46,7 @@ resource "null_resource" "provisioner" {
   
   provisioner "file" {
     source      = "${path.module}/files/.aws"
-    destination = "/tmp/.aws"
+    destination = "/tmp"
   }
 
   provisioner "file" {
