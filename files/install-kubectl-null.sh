@@ -22,6 +22,3 @@ sudo ./aws/install
 # kubectl update
 aws eks update-kubeconfig --region ap-southeast-2 --name multi05-eks-cluster-terraform
 
-# # Install ns 
-# kubectl create ns amazon-cloudwatch
-

@@ -110,10 +110,10 @@ resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryReadOn
   role       = aws_iam_role.node.name
 }
 
-# resource "aws_iam_role_policy_attachment" "node-CloudWatchAgentServerPolicy" {
-#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-#   role       = aws_iam_role.node.name
-# }
+resource "aws_iam_role_policy_attachment" "node_CloudWatchAgentServerPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  role       = aws_iam_role.node.name
+}
 
 ################################################################################
 # IAM Role for Bastion host
@@ -304,130 +304,130 @@ resource "aws_iam_role_policy_attachment" "efs_csi" {
 # IAM Role for cloudwatch-agent
 ################################################################################
 
-data "aws_iam_policy_document" "cloudwatch_agent_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
+# data "aws_iam_policy_document" "cloudwatch_agent_policy" {
+#   statement {
+#     actions = ["sts:AssumeRoleWithWebIdentity"]
+#     effect  = "Allow"
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"]
-    }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+#       values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"]
+#     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
-  }
-}
+#     principals {
+#       identifiers = [aws_iam_openid_connect_provider.eks.arn]
+#       type        = "Federated"
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "cloudwatch_agent" {
-  assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_policy.json
-  name               = "${local.name}-cloudwatch-agent-role"
-}
+# resource "aws_iam_role" "cloudwatch_agent" {
+#   assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_policy.json
+#   name               = "${local.name}-cloudwatch-agent-role"
+# }
 
 
-resource "aws_iam_role_policy_attachment" "cloudwatch_agent_CloudWatchAgentServerPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  role       = aws_iam_role.cloudwatch_agent.name
-}
+# resource "aws_iam_role_policy_attachment" "cloudwatch_agent_CloudWatchAgentServerPolicy" {
+#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+#   role       = aws_iam_role.cloudwatch_agent.name
+# }
 
 ################################################################################
 # IAM Role for fluent-bit
 ################################################################################
 
-data "aws_iam_policy_document" "fluent_bit_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
+# data "aws_iam_policy_document" "fluent_bit_policy" {
+#   statement {
+#     actions = ["sts:AssumeRoleWithWebIdentity"]
+#     effect  = "Allow"
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:amazon-cloudwatch:fluent-bit"]
-    }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+#       values   = ["system:serviceaccount:amazon-cloudwatch:fluent-bit"]
+#     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
-  }
-}
+#     principals {
+#       identifiers = [aws_iam_openid_connect_provider.eks.arn]
+#       type        = "Federated"
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "fluent_bit" {
-  assume_role_policy = data.aws_iam_policy_document.fluent_bit_policy.json
-  name               = "${local.name}-fluent-bit-role"
-}
+# resource "aws_iam_role" "fluent_bit" {
+#   assume_role_policy = data.aws_iam_policy_document.fluent_bit_policy.json
+#   name               = "${local.name}-fluent-bit-role"
+# }
 
 
-resource "aws_iam_role_policy_attachment" "fluent_bit_CloudWatchAgentServerPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  role       = aws_iam_role.fluent_bit.name
-}
+# resource "aws_iam_role_policy_attachment" "fluent_bit_CloudWatchAgentServerPolicy" {
+#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+#   role       = aws_iam_role.fluent_bit.name
+# }
 
 ################################################################################
 # IAM Role for prometheus
 ################################################################################
 
-data "aws_iam_policy_document" "cwagent_prometheus_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
+# data "aws_iam_policy_document" "cwagent_prometheus_policy" {
+#   statement {
+#     actions = ["sts:AssumeRoleWithWebIdentity"]
+#     effect  = "Allow"
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:amazon-cloudwatch:cwagent-prometheus"]
-    }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+#       values   = ["system:serviceaccount:amazon-cloudwatch:cwagent-prometheus"]
+#     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
-  }
-}
+#     principals {
+#       identifiers = [aws_iam_openid_connect_provider.eks.arn]
+#       type        = "Federated"
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "cwagent_prometheus" {
-  assume_role_policy = data.aws_iam_policy_document.cwagent_prometheus_policy.json
-  name               = "${local.name}-cwagent-prometheus-role"
-}
+# resource "aws_iam_role" "cwagent_prometheus" {
+#   assume_role_policy = data.aws_iam_policy_document.cwagent_prometheus_policy.json
+#   name               = "${local.name}-cwagent-prometheus-role"
+# }
 
 
-resource "aws_iam_role_policy_attachment" "cwagent_prometheus_CloudWatchAgentServerPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  role       = aws_iam_role.cwagent_prometheus.name
-}
+# resource "aws_iam_role_policy_attachment" "cwagent_prometheus_CloudWatchAgentServerPolicy" {
+#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+#   role       = aws_iam_role.cwagent_prometheus.name
+# }
 
 ################################################################################
 # IAM Role for XRay Trace
 ################################################################################
 
-data "aws_iam_policy_document" "xray_daemon" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
+# data "aws_iam_policy_document" "xray_daemon" {
+#   statement {
+#     actions = ["sts:AssumeRoleWithWebIdentity"]
+#     effect  = "Allow"
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:default:xray-daemon"]
-    }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+#       values   = ["system:serviceaccount:default:xray-daemon"]
+#     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
-  }
-}
+#     principals {
+#       identifiers = [aws_iam_openid_connect_provider.eks.arn]
+#       type        = "Federated"
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "xray_daemon" {
-  assume_role_policy = data.aws_iam_policy_document.xray_daemon.json
-  name               = "${local.name}-xray-daemon-role"
-}
+# resource "aws_iam_role" "xray_daemon" {
+#   assume_role_policy = data.aws_iam_policy_document.xray_daemon.json
+#   name               = "${local.name}-xray-daemon-role"
+# }
 
 
-resource "aws_iam_role_policy_attachment" "xray_daemon_AWSXRayDaemonWriteAccess" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-  role       = aws_iam_role.xray_daemon.name
-}
+# resource "aws_iam_role_policy_attachment" "xray_daemon_AWSXRayDaemonWriteAccess" {
+#   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+#   role       = aws_iam_role.xray_daemon.name
+# }

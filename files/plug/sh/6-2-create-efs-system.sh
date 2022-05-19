@@ -28,13 +28,6 @@ file_system_id=$(aws efs create-file-system \
     --query 'FileSystemId' \
     --output text)
 
-kubectl get nodes
-
-aws ec2 describe-subnets \
-    --filters "Name=vpc-id,Values=$vpc_id" \
-    --query 'Subnets[*].{SubnetId: SubnetId,AvailabilityZone: AvailabilityZone,CidrBlock: CidrBlock}' \
-    --output table
-
 # 노드가 위치한 서브넷 추가 output 참조하여 변경
 aws efs create-mount-target \
     --file-system-id $file_system_id \

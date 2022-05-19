@@ -37,49 +37,33 @@ resource "null_resource" "provisioner" {
 
   # Bootstrap script can run on any instance of the cluster
   # So we just choose the first in this case
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    private_key = "${file("${path.module}/files/.pem/id_rsa")}"
+    host = aws_instance.provisioner.public_ip
+  }
+  
   provisioner "file" {
     source      = "${path.module}/files/.aws"
     destination = "/tmp/.aws"
-
-    connection {
-      type = "ssh"
-      user = "ubuntu"
-      host = aws_instance.provisioner.public_ip
-    }
   }
 
   provisioner "file" {
     source      = "${path.module}/files/plug"
-    destination = "/tmp/plug"
-
-    connection {
-      type = "ssh"
-      user = "ubuntu"
-      host = aws_instance.provisioner.public_ip
-    }
+    destination = "/tmp"
   }
 
   provisioner "remote-exec" {
     inline = [
       "sudo mv /tmp/.aws ~/",
-      "sudo chmod +x /tmp/plug/sh/*.sh"
+      "sudo mv /tmp/plug ~/",
+      "sudo chmod +x ~/plug/sh/*.sh"
     ]
-
-    connection {
-      type = "ssh"
-      user = "ubuntu"
-      host = aws_instance.provisioner.public_ip
-    }
   }
 
   provisioner "remote-exec" {
     script = "${path.module}/files/install-kubectl-null.sh"
-
-    connection {
-      type = "ssh"
-      user = "ubuntu"
-      host = aws_instance.provisioner.public_ip
-    }
   }
 
   depends_on = [

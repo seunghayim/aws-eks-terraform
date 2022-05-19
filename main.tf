@@ -23,7 +23,7 @@ resource "aws_eks_cluster" "this" {
     endpoint_private_access = true
     endpoint_public_access  = true
     security_group_ids      = [aws_security_group.eks-cotrol-plane.id]
-    #public_access_cidrs = ["0.0.0.0/0","182.230.162.173/32"]
+    # public_access_cidrs     = [cidrsubnet(aws_instance.provisioner.public_ip, 16)]
   }
 
   kubernetes_network_config {
