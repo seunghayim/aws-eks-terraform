@@ -31,7 +31,7 @@ resource "aws_eks_node_group" "node" {
     aws_iam_role_policy_attachment.node_AmazonSSMManagedInstanceCore,
     aws_iam_role_policy_attachment.node_AmazonEC2ContainerRegistryReadOnly,
     aws_iam_role_policy_attachment.node_CloudWatchAgentServerPolicy,
-    aws_eks_cluster
+    aws_eks_cluster.this
   ]
 
   # tags = {
